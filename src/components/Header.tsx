@@ -4,6 +4,7 @@ import { Menu, Phone } from "lucide-react";
 import BookingForm from "./BookingForm";
 
 const Header = () => {
+  console.log("Header component rendering");
   const [bookingOpen, setBookingOpen] = useState(false);
 
   return (

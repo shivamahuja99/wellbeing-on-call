@@ -4,6 +4,7 @@ import ServicesSection from "@/components/ServicesSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
+  console.log("Index component rendering");
   return (
     <div className="min-h-screen">
       <Header />

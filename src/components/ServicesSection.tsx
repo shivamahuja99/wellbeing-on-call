@@ -1,60 +1,12 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  Stethoscope, 
-  Heart, 
-  Baby, 
-  Thermometer, 
-  UserCheck, 
-  Activity,
-  Shield,
-  Users
-} from "lucide-react";
+// import icons from lucide-react (not needed for images)
+// Service images
+import { SERVICES } from "@/constants/services";
 import BookingForm from "./BookingForm";
 
-const services = [
-  {
-    icon: Stethoscope,
-    title: "Doctor Consultation",
-    description: "Expert medical consultations from certified doctors at your doorstep"
-  },
-  {
-    icon: Heart,
-    title: "Nursing Care",
-    description: "Professional nursing services for post-operative and chronic care"
-  },
-  {
-    icon: Baby,
-    title: "Mother & Baby Care",
-    description: "Specialized care for new mothers and newborn babies"
-  },
-  {
-    icon: Thermometer,
-    title: "Lab Tests",
-    description: "Comprehensive diagnostic tests and health screenings at home"
-  },
-  {
-    icon: UserCheck,
-    title: "Physiotherapy",
-    description: "Expert physiotherapy sessions for recovery and rehabilitation"
-  },
-  {
-    icon: Activity,
-    title: "Elder Care",
-    description: "Compassionate care services for senior citizens"
-  },
-  {
-    icon: Shield,
-    title: "Medical Equipment",
-    description: "Rent or purchase medical equipment and devices"
-  },
-  {
-    icon: Users,
-    title: "Trained Attendants",
-    description: "Certified attendants for patient care and assistance"
-  }
-];
+const services = SERVICES;
 
 const ServicesSection = () => {
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -82,23 +34,31 @@ const ServicesSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
             <Card 
-              key={index} 
-              className="group hover:shadow-medical transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-secondary/20"
+              key={index}
+              className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 flex flex-col items-center"
             >
-              <CardContent className="p-6 text-center">
-                <div className="mb-4 mx-auto w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <service.icon className="h-8 w-8 text-white" />
+              <CardContent className="p-6 flex flex-col items-center">
+                <div className="mb-4 w-20 h-20 rounded-full border-4 border-primary bg-white overflow-hidden flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                  <img
+                    src={service.image}
+                    alt={service.name}
+                    className="object-cover w-full h-full"
+                    onError={e => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = service.image;
+                    }}
+                  />
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">
-                  {service.title}
+                <h3 className="text-lg font-semibold mb-2 text-center text-foreground group-hover:text-primary transition-colors">
+                  {service.name}
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4 text-center">
                   {service.description}
                 </p>
                 <Button 
                   size="sm" 
-                  className="w-full bg-gradient-primary text-white hover:opacity-90 transition-opacity"
-                  onClick={() => handleBookService(service.title)}
+                  className="w-full bg-primary text-white hover:bg-primary/90 transition-opacity rounded"
+                  onClick={() => handleBookService(service.name)}
                 >
                   Book Now
                 </Button>

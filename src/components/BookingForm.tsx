@@ -5,6 +5,8 @@ import { z } from "zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { SERVICES } from "@/constants/services";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,11 +28,14 @@ interface BookingFormProps {
   service?: string;
 }
 
+const serviceOptions = SERVICES;
+
 const BookingForm = ({ open, onOpenChange, service = "General Consultation" }: BookingFormProps) => {
   console.log("BookingForm component rendering", { open, service });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedService, setSelectedService] = useState(service);
   const { toast } = useToast();
-  
+
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
@@ -43,7 +48,7 @@ const BookingForm = ({ open, onOpenChange, service = "General Consultation" }: B
 
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
-    
+
     try {
       // Save to database
       const { error: dbError } = await supabase
@@ -53,7 +58,7 @@ const BookingForm = ({ open, onOpenChange, service = "General Consultation" }: B
           contact_number: data.contactNumber,
           age_or_dob: data.ageOrDob,
           city: data.city,
-          service: service,
+          service: selectedService,
         });
 
       if (dbError) {
@@ -64,7 +69,7 @@ const BookingForm = ({ open, onOpenChange, service = "General Consultation" }: B
       const { error: emailError } = await supabase.functions.invoke('send-booking-email', {
         body: {
           ...data,
-          service,
+          service: selectedService,
         }
       });
 
@@ -99,13 +104,25 @@ const BookingForm = ({ open, onOpenChange, service = "General Consultation" }: B
           <DialogTitle className="text-2xl font-bold text-center bg-gradient-primary bg-clip-text text-transparent">
             Book Your Appointment
           </DialogTitle>
-          <p className="text-center text-muted-foreground">
-            Service: <span className="font-semibold text-primary">{service}</span>
-          </p>
         </DialogHeader>
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-2">
+              <FormLabel>Service</FormLabel>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-xl bg-muted text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                value={selectedService}
+                onChange={e => setSelectedService(e.target.value)}
+              >
+                {serviceOptions.map(service => (
+                  <option key={service.key} value={service.name} className="rounded-lg px-2 py-1">
+                    {service.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <FormField
               control={form.control}
               name="name"
@@ -164,7 +181,7 @@ const BookingForm = ({ open, onOpenChange, service = "General Consultation" }: B
 
             <Button 
               type="submit" 
-              className="w-full bg-gradient-primary text-white font-semibold" 
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold" 
               disabled={isSubmitting}
             >
               {isSubmitting ? (

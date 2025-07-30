@@ -75,7 +75,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "IllandPill Bookings <bookings@resend.dev>",
+      from: "connect@illandpill.com",
       to: ["connect@illandpill.com"],
       subject: `New Booking: ${service} - ${name}`,
       html: emailHtml,

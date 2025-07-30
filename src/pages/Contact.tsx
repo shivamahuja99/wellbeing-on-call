@@ -26,10 +26,10 @@ const Contact = () => (
             <div className="flex items-center gap-4">
               <Mail className="text-green-600 h-6 w-6" />
               <a
-                href="mailto:care@illandpill.com"
+                href="mailto:connect@illandpill.com"
                 className="text-lg font-medium text-blue-600 hover:underline"
               >
-                care@illandpill.com
+                connect@illandpill.com
               </a>
             </div>
             <div className="flex items-center gap-4">

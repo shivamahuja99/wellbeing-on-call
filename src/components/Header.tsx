@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, Phone } from "lucide-react";
+import BookingForm from "./BookingForm";
 
 const Header = () => {
+  const [bookingOpen, setBookingOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
@@ -37,7 +41,11 @@ const Header = () => {
 
         {/* CTA and Mobile Menu */}
         <div className="flex items-center space-x-4">
-          <Button variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+          <Button 
+            variant="default" 
+            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+            onClick={() => setBookingOpen(true)}
+          >
             Book Now
           </Button>
           <Button variant="ghost" size="icon" className="md:hidden">
@@ -45,6 +53,12 @@ const Header = () => {
           </Button>
         </div>
       </div>
+      
+      <BookingForm 
+        open={bookingOpen} 
+        onOpenChange={setBookingOpen}
+        service="General Consultation"
+      />
     </header>
   );
 };

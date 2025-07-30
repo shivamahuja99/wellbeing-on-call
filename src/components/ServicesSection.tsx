@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { 
   Stethoscope, 
   Heart, 
@@ -9,6 +11,7 @@ import {
   Shield,
   Users
 } from "lucide-react";
+import BookingForm from "./BookingForm";
 
 const services = [
   {
@@ -54,6 +57,14 @@ const services = [
 ];
 
 const ServicesSection = () => {
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+
+  const handleBookService = (serviceName: string) => {
+    setSelectedService(serviceName);
+    setBookingOpen(true);
+  };
+
   return (
     <section id="services" className="py-16 md:py-24">
       <div className="container px-4">
@@ -81,14 +92,27 @@ const ServicesSection = () => {
                 <h3 className="text-lg font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   {service.description}
                 </p>
+                <Button 
+                  size="sm" 
+                  className="w-full bg-gradient-primary text-white hover:opacity-90 transition-opacity"
+                  onClick={() => handleBookService(service.title)}
+                >
+                  Book Now
+                </Button>
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
+      
+      <BookingForm 
+        open={bookingOpen} 
+        onOpenChange={setBookingOpen}
+        service={selectedService}
+      />
     </section>
   );
 };

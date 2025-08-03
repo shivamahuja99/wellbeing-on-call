@@ -4,6 +4,10 @@ import path from "path";
 
 export default defineConfig(({ mode }) => ({
   base: '/wellbeing-on-call/',
+  server: {
+    host: "::",
+    port: 8080,
+  },
   plugins: [
     react(),
   ],

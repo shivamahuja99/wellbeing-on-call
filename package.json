@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://shivamahuja99/wellbeing-on-call",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
